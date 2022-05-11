@@ -13,16 +13,18 @@ int main(int argc, char **argv)
     MPI_Comm_size(MPI_COMM_WORLD, &size);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
+    int myNum = rand() % rank;
+    printf("\nMy rank is: %d and my nymber is: %d\n", rank, myNum);
 
-
+    MPI_Barrier(MPI_COMM_WORLD);
     //Print inital reduction
     if (rank == root)
     {
-        printf("The initial reduction is: %d\n", reduction);
+        printf("T\nhe initial reduction is: %d\n", reduction);
     }
     
     //Initialize the reduction variable
-    MPI_Reduce(&rank, &reduction, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
+    MPI_Reduce(&myNum, &reduction, 1, MPI_INT, MPI_SUM, root, MPI_COMM_WORLD);
 
     //Print out the result
     if (rank == 0)
